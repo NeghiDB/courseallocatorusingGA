@@ -44,7 +44,7 @@ class Data:
         #self._rooms = [Room(name) for name in self.ROOMS]
         #self._depts = [Dept(name, courses) for name, courses in self.DEPTS]
         self._lecturers = [Lecturer(name, dept) for name, dept in self.LECTURERS]
-        self.numberOfClasses = 0
+        #self.numberOfClasses = 0
 
         course1 = Course("C1", "325K", [self._lecturers[0],self._lecturers[1]],25)                
         course2 = Course("C2", "319K", [self._lecturers[0],self._lecturers[1], self._lecturers[2]],35)

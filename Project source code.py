@@ -34,7 +34,7 @@ class Data:
             #self.lectureTime.append(LECTURETIME(self.LECTURE_TIMES[i][0], self.LECTURE_TIMES[i][1]))
         for i in range(len(self.LECTURE_TIMES)):
             start_time, end_time = self.LECTURE_TIMES[i]
-            self.lectureTime.append(LECTURETIME(start_time, end_time))
+            self._lectureTimes.append(LECTURETIME(start_time, end_time))
 
         for i in range(0, len(self.LECTURERS)):
             self._lecturers.append(lecturer(self.LECTURERS[i][0], SELF.LECTURERS[i][1]))

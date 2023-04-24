@@ -15,7 +15,13 @@ class Data:
                 ["I3", "Dr Steve Dav"],
                 ["I4", "Mrs Jane Doe"]]
     def __init__(self):
-        self._rooms = []; self._lectureTimes = []; self._lecturers = []
+        #self._rooms = [];
+        self._rooms = [[101, 50], [102, 100], [103, 30], [104, 80], [105, 45], [106, 25], [107, 120], [108, 35], [109, 60], [110, 75]]
+        self._lectureTimes = []; self._lecturers = []
+        if self._rooms:
+            for i in range(0, len(self._rooms)):
+                self._rooms[i] = Room(self._rooms[i][0], self._rooms[i][1])
+
         for i in range(0, len(self.ROOMS)):
             #self._rooms.append(Room(self.ROOMS[i][0], self.Rooms[i][1]))
             self._rooms.append(Room(self._rooms[i][0], self._rooms[i][1]))

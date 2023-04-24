@@ -5,19 +5,35 @@ NUM_OF_ELITE_SCHEDULES = 1
 TOURNAMENT_SELECTION_SIZE = 3
 MUTATION_RATE = 0.1
 class Data:
-    ROOMS = [["R1",45],["R3",35]]
-    LECTURE_TIMES =[["CSC1","MWF 09:00 - 10:00"],
-                   ["CSC2","MWF 10:00 - 11:00"],
-                   ["CSC3","TTH 09:00 - 10:30"],
-                   ["CSC4","TTH 10:30 - 12:00"]]
-    LECTURERS = [["I1", "Dr James Web"],
-                ["I2", "Mr JMike Brown"],
-                ["I3", "Dr Steve Dav"],
-                ["I4", "Mrs Jane Doe"]]
+    #ROOMS = [["R1",45],["R3",35]]
+    #LECTURE_TIMES =[["CSC1","MWF 09:00 - 10:00"],
+                   #["CSC2","MWF 10:00 - 11:00"],
+                  # ["CSC3","TTH 09:00 - 10:30"],
+                 #  ["CSC4","TTH 10:30 - 12:00"]]
+    #LECTURERS = [["I1", "Dr James Web"],
+                #["I2", "Mr JMike Brown"],
+                #["I3", "Dr Steve Dav"],
+                #["I4", "Mrs Jane Doe"]]
+    LECTURERS = [("Dr. A", "IT"), ("Mr. B", "Science"), ("Dr. C", "Maths"), ("Mrs. D", "English")]
+    ROOMS = ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6"]
+    TIMESLOTS = [("9:00", "10:00"), ("10:00", "11:00"), ("11:00", "12:00"), ("12:00", "1:00"),
+                 ("2:00", "3:00"), ("3:00", "4:00"), ("4:00", "5:00")]
+    DEPTS = [Department("IT", ["IT101", "IT102", "IT103", "IT104", "IT105"]),
+             Department("Science", ["SCI101", "SCI102", "SCI103", "SCI104"]),
+             Department("Maths", ["MATH101", "MATH102", "MATH103"]),
+             Department("English", ["ENG101", "ENG102"])]
+
+    
     def __init__(self):
         #self._rooms = [];
-        self._rooms = [[101, 50], [102, 100], [103, 30], [104, 80], [105, 45], [106, 25], [107, 120], [108, 35], [109, 60], [110, 75]]
-        self._lectureTimes = []; self._lecturers = []
+        #self._rooms = [[101, 50], [102, 100], [103, 30], [104, 80], [105, 45], [106, 25], [107, 120], [108, 35], [109, 60], [110, 75]]
+        #self._lectureTimes = []; self._lecturers = []
+        self._lectureTimes = []
+        self._rooms = [Room(name) for name in self.ROOMS]
+        self._depts = [Dept(name, courses) for name, courses in self.DEPTS]
+        self._lecturers = [Lecturer(name, dept) for name, dept in self.LECTURERS]
+        self.numberOfClasses = 0
+
         if self._rooms:
             #for i in range(0, len(self._rooms)):
                 #self._rooms[i] = Room(self._rooms[i][0], self._rooms[i][1])
@@ -57,6 +73,13 @@ class Data:
         self.numberOfClasses = 0
         for i in range(0, len(self._depts)):
             self.numberOfClasses += len(self._depts[i].get_courses())
+            for j in range(len(self._depts[i].get_courses())):
+                course = Course(self._depts[i].get_courses()[j], self._depts[i], self._lecturers[j])
+                self._depts[i].add_course(course)
+                self._lecturers[j].add_course(course)
+        for i in range(len(self.TIMESLOTS)):
+            for j in range(len(self._rooms)):
+                self._lectureTimes.append(LectureTime(self.TIMESLOTS[i], self._rooms[j]))
     def get_rooms(self): return self._rooms
     def get_lecturers(self): return self._lecturers
     def get_courses(self): return self._courses
@@ -178,9 +201,9 @@ class Lecturer:
     def __init__(self, name, courses):
         self.name = name
         self.courses = courses
-        def get_name(self): return self.name
-        def get_courses(self): return self.courses
-        def __str__(self): return self.courses
+    def get_name(self): return self.name
+    def get_courses(self): return self.courses
+    def __str__(self): return self.courses
 ###########################################
 class LECTURETIME:
     def __init__(self, start_time, end_time):
@@ -194,22 +217,22 @@ class Room:
     def __init__(self, number, seatingCapacity):
         self.number = number
         self.seatingCapacity = seatingCapacity
-        def get_number(self): return self._number
-        def get_seatingCapacity(self): return self._seatingCapacity
+    def get_number(self): return self._number
+    def get_seatingCapacity(self): return self._seatingCapacity
 class LectureTime:
     def __init__(self, id, time):
         self._id = id
         self._time = time
-        def get_id(self): return self._id
-        def get_time(self): return self._time
+    def get_id(self): return self._id
+    def get_time(self): return self._time
 class Department:
     def __init__(self, name, courses):
         self.name = name
-        def get_name(self): return self._name
-        def get_courses(self): return self._courses
-    
+        self._courses = courses
+    def get_name(self):
+        return self._name
     def get_courses(self):
-        return self.get_courses
+        return self._courses
 class Class:
     def __init__(self, id, dept, course):
         self._id = id
@@ -218,18 +241,18 @@ class Class:
         self._lecturer = None
         self._lectureTime = None
         self._room = None
-        def get_id(self): return self._id
-        def get_dept(self): return self._dept
-        def get_course(self): return self._course
-        def get_lecturer(self): return self._lecturer
-        def get_lectureTime(self): return self._lectureTime
-        def get_room(self): return self._room
-        def set_lecturer(self, lecturer): self._lecturer = lecturer
-        def set_lectureTime(self, lectureTime): self._lectureTime = lectureTime
-        def set_room(self, room): self._room = room
-        def __str__(self):
-            return str(self._dept.get_name()) + "," + str(self._course.get_number()) + "," + \
-                str(self.room.get_number()) + "," + str(self._lecturer.get_id()) + "," + str(self._lectureTime.get_id())
+    def get_id(self): return self._id
+    def get_dept(self): return self._dept
+    def get_course(self): return self._course
+    def get_lecturer(self): return self._lecturer
+    def get_lectureTime(self): return self._lectureTime
+    def get_room(self): return self._room
+    def set_lecturer(self, lecturer): self._lecturer = lecturer
+    def set_lectureTime(self, lectureTime): self._lectureTime = lectureTime
+    def set_room(self, room): self._room = room
+    def __str__(self):
+        return str(self._dept.get_name()) + "," + str(self._course.get_number()) + "," + \
+            str(self.room.get_number()) + "," + str(self._lecturer.get_id()) + "," + str(self._lectureTime.get_id())
 class DisplayMgr:
     def print_available_data(self):
         print("> All Available Data")

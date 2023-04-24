@@ -4,6 +4,18 @@ POPULATION_SIZE = 9
 NUM_OF_ELITE_SCHEDULES = 1
 TOURNAMENT_SELECTION_SIZE = 3
 MUTATION_RATE = 0.1
+
+class Department:
+    def __init__(self, name, courses):
+        self._name = name
+        self._courses = courses
+
+    def get_name(self):
+        return self._name
+
+    def get_courses(self):
+        return self._courses
+
 class Data:
     #ROOMS = [["R1",45],["R3",35]]
     #LECTURE_TIMES =[["CSC1","MWF 09:00 - 10:00"],
@@ -26,12 +38,26 @@ class Data:
     
     def __init__(self):
         #self._rooms = [];
-        #self._rooms = [[101, 50], [102, 100], [103, 30], [104, 80], [105, 45], [106, 25], [107, 120], [108, 35], [109, 60], [110, 75]]
+        self._rooms = [[101, 50], [102, 100], [103, 30], [104, 80], [105, 45], [106, 25], [107, 120], [108, 35], [109, 60], [110, 75]]
         #self._lectureTimes = []; self._lecturers = []
         self._lectureTimes = []
-        self._rooms = [Room(name) for name in self.ROOMS]
-        self._depts = [Dept(name, courses) for name, courses in self.DEPTS]
+        #self._rooms = [Room(name) for name in self.ROOMS]
+        #self._depts = [Dept(name, courses) for name, courses in self.DEPTS]
         self._lecturers = [Lecturer(name, dept) for name, dept in self.LECTURERS]
+        self.numberOfClasses = 0
+
+        course1 = Course("C1", "325K", [self._lecturers[0],self._lecturers[1]],25)                
+        course2 = Course("C2", "319K", [self._lecturers[0],self._lecturers[1], self._lecturers[2]],35)
+        course3 = Course("C3", "462K", [self._lecturers[0],self._lecturers[1]],25)
+        course4 = Course("C4", "464K", [self._lecturers[2],self._lecturers[3]],30)  
+        course5 = Course("C5", "368C", [self._lecturers[3]],35)
+        course6 = Course("C6", "303K", [self._lecturers[0],self._lecturers[2]],45)
+        course7 = Course("C7", "303L", [self._lecturers[1],self._lecturers[3]],45)
+        self._courses = [course1, course2, course3, course4, course5, course6, course7]
+        dept1 = Department("CSC",[course1,course3])
+        dept2 = Department("MATH", [course2, course4, course5])
+        dept3 = Department("STAT", [course6, course7])
+        self._depts = [dept1,dept2, dept3]
         self.numberOfClasses = 0
 
         if self._rooms:
@@ -58,7 +84,7 @@ class Data:
 
         for i in range(0, len(self.LECTURERS)):
             self._lecturers.append(Lecturer(self.LECTURERS[i][0], self.LECTURERS[i][1]))
-        course1 = Course("C1", "325K", [self._lecturers[0],self._lecturers[1]],25)                
+        '''course1 = Course("C1", "325K", [self._lecturers[0],self._lecturers[1]],25)                
         course2 = Course("C2", "319K", [self._lecturers[0],self._lecturers[1], self._lecturers[2]],35)
         course3 = Course("C3", "462K", [self._lecturers[0],self._lecturers[1]],25)
         course4 = Course("C4", "464K", [self._lecturers[2],self._lecturers[3]],30)  
@@ -70,7 +96,7 @@ class Data:
         dept2 = Department("MATH", [course2, course4, course5])
         dept3 = Department("STAT", [course6, course7])
         self._depts = [dept1,dept2, dept3]
-        self.numberOfClasses = 0
+        self.numberOfClasses = 0'''
         for i in range(0, len(self._depts)):
             self.numberOfClasses += len(self._depts[i].get_courses())
             for j in range(len(self._depts[i].get_courses())):
@@ -217,22 +243,18 @@ class Room:
     def __init__(self, number, seatingCapacity):
         self.number = number
         self.seatingCapacity = seatingCapacity
-    def get_number(self): return self._number
-    def get_seatingCapacity(self): return self._seatingCapacity
+
+    def get_number(self):
+        return self._number
+    def get_seatingCapacity(self):
+        return self._seatingCapacity
 class LectureTime:
     def __init__(self, id, time):
         self._id = id
         self._time = time
     def get_id(self): return self._id
     def get_time(self): return self._time
-class Department:
-    def __init__(self, name, courses):
-        self.name = name
-        self._courses = courses
-    def get_name(self):
-        return self._name
-    def get_courses(self):
-        return self._courses
+
 class Class:
     def __init__(self, id, dept, course):
         self._id = id

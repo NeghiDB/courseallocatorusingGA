@@ -19,8 +19,12 @@ class Data:
         self._rooms = [[101, 50], [102, 100], [103, 30], [104, 80], [105, 45], [106, 25], [107, 120], [108, 35], [109, 60], [110, 75]]
         self._lectureTimes = []; self._lecturers = []
         if self._rooms:
-            for i in range(0, len(self._rooms)):
-                self._rooms[i] = Room(self._rooms[i][0], self._rooms[i][1])
+            #for i in range(0, len(self._rooms)):
+                #self._rooms[i] = Room(self._rooms[i][0], self._rooms[i][1])
+            for i in range(len(self._rooms)):
+                room_name, room_capacity = self._rooms[i]
+                self._rooms.append(Room(room_name, room_capacity))
+
 
         for i in range(0, len(self.ROOMS)):
             #self._rooms.append(Room(self.ROOMS[i][0], self.Rooms[i][1]))

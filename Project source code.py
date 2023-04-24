@@ -32,12 +32,16 @@ class Data:
 
         #for i in range(0, len(self.LECTURE_TIMES)):
             #self.lectureTime.append(LECTURETIME(self.LECTURE_TIMES[i][0], self.LECTURE_TIMES[i][1]))
+        #for i in range(len(self.LECTURE_TIMES)):
+            #start_time, end_time = self.LECTURE_TIMES[i]
+            #self._lectureTimes.append(LECTURETIME(start_time, end_time))
         for i in range(len(self.LECTURE_TIMES)):
-            start_time, end_time = self.LECTURE_TIMES[i]
+            start_time = self.LECTURE_TIMES[i][0]
+            end_time = self.LECTURE_TIMES[i][1]
             self._lectureTimes.append(LECTURETIME(start_time, end_time))
 
         for i in range(0, len(self.LECTURERS)):
-            self._lecturers.append(lecturer(self.LECTURERS[i][0], SELF.LECTURERS[i][1]))
+            self._lecturers.append(Lecturer(self.LECTURERS[i][0], self.LECTURERS[i][1]))
         course1 = Course("C1", "325K", [self._lecturers[0],self._lecturers[1]],25)                
         course2 = Course("C2", "319K", [self._lecturers[0],self._lecturers[1], self._lecturers[2]],35)
         course3 = Course("C3", "462K", [self._lecturers[0],self._lecturers[1]],25)
@@ -170,6 +174,15 @@ class Lecturer:
         def get_id(self): return self._id
         def get_name(self): return self._name
         def __str__(self): return self._name
+###########################################
+class LECTURETIME:
+    def __init__(self, start_time, end_time):
+        self.start_time = start_time
+        self.end_time = end_time
+    
+    def __str__(self):
+        return '{}-{}'.format(self.start_time, self.end_time)
+
 class Room:
     def __init__(self, number, seatingCapacity):
         self.number = number

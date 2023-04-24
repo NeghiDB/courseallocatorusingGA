@@ -207,6 +207,9 @@ class Department:
         self.name = name
         def get_name(self): return self._name
         def get_courses(self): return self._courses
+    
+    def get_courses(self):
+        return self.get_courses
 class Class:
     def __init__(self, id, dept, course):
         self._id = id

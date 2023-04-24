@@ -48,15 +48,15 @@ class Data:
         course4 = Course("C4", "464K", [self._lecturers[2],self._lecturers[3]],30)  
         course5 = Course("C5", "368C", [self._lecturers[3]],35)
         course6 = Course("C6", "303K", [self._lecturers[0],self._lecturers[2]],45)
-        course7 = Course("C7", "303L", [self._lecturers[1],self._lecturer[3]],45)
+        course7 = Course("C7", "303L", [self._lecturers[1],self._lecturers[3]],45)
         self._courses = [course1, course2, course3, course4, course5, course6, course7]
         dept1 = Department("CSC",[course1,course3])
         dept2 = Department("MATH", [course2, course4, course5])
         dept3 = Department("STAT", [course6, course7])
         self._depts = [dept1,dept2, dept3]
         self.numberOfClasses = 0
-        for i in range(0, len(self.depts)):
-            self.numberOfClasses += len(self.depts[i].get_courses())
+        for i in range(0, len(self._depts)):
+            self.numberOfClasses += len(self._depts[i].get_courses())
     def get_rooms(self): return self._rooms
     def get_lecturers(self): return self._lecturers
     def get_courses(self): return self._courses
@@ -167,13 +167,20 @@ class Course:
     def get_lecturers(self): return self._lecturers
     def get_maxNumOfStudents(self): return self._maxNumOfStudents
     def __str__(self): return self._name                 
+#class Lecturer:
+    #def _init_(self, id, name):
+        #self._id = id
+        #self._name = name
+        #def get_id(self): return self._id
+        #def get_name(self): return self._name
+        #def __str__(self): return self._name
 class Lecturer:
-    def _init_(self, id, name):
-        self._id = id
-        self._name = name
-        def get_id(self): return self._id
-        def get_name(self): return self._name
-        def __str__(self): return self._name
+    def __init__(self, name, courses):
+        self.name = name
+        self.courses = courses
+        def get_name(self): return self.name
+        def get_courses(self): return self.courses
+        def __str__(self): return self.courses
 ###########################################
 class LECTURETIME:
     def __init__(self, start_time, end_time):
